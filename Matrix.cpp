@@ -1,0 +1,228 @@
+#include "Matrix.h"
+#include "iostream"
+using namespace std; 
+
+
+// Constructors
+// Takes input r = rows, and c = collumns, as well as vector<double> to fill the matrix 
+Matrix::Matrix(int r, int c, vector<double>& arr) {
+    int n = r * c;
+
+    if (n != arr.size()) {
+        throw invalid_argument("Array is incorrectly sized!");
+    }
+
+    rows = r; 
+    cols = c; 
+
+    matrix.resize(r, vector<double>(c));
+
+    for (int row = 0; row < r; row++) {
+        for (int col = 0; col < c; col++) {
+            matrix[row][col] = arr[row * c + col];
+        }
+    }
+
+}
+
+Matrix::Matrix(int r, int c, vector<vector<double>>& m) {
+    rows = r; 
+    cols = c; 
+    matrix = m; 
+}
+
+
+Matrix Matrix::scalarMultiply(double& scalar) {
+
+    vector<vector<double>> result(rows, vector<double>(cols));
+
+    for (int i = 0; i < matrix.size(); i++) {
+
+        for (int j = 0; j < matrix[i].size(); j++) {
+            result[i][j] = matrix[i][j] * scalar;
+        }
+
+    }
+
+    return Matrix(rows, cols, result);
+
+}
+
+
+
+Matrix Matrix::multiplyMatrix(Matrix& b) {
+
+    int rowsA = rows; 
+    int colsA = cols; 
+    int rowsB = b.getRows(); 
+    int colsB = b.getCols(); 
+
+    // To multiply two matrix A's col must = matrix B's rows
+    if (cols != rowsB) {
+        throw invalid_argument("Matrix b does does not have the same number of cols of matrix A!");
+    }
+
+
+   vector<vector<double>> result(rows, vector<double>(b.getCols(), 0));
+
+    for (int row = 0; row < rowsA; row++) {
+        for (int col = 0; col < colsB; col++) {
+            for (int k = 0; k < colsA; k++) {
+                result[row][col] += matrix[row][k] * b.matrix[k][col];
+            }
+        }
+    }
+
+    
+    return Matrix(rowsA, colsB, result);
+    
+
+}
+
+    // Returns the transpose of the matrix 
+   Matrix Matrix::transpose() {
+        vector<vector<double>> result(cols, vector<double>(rows));
+
+        for (int i = 0; i < matrix.size(); i++) {
+
+            for (int j = 0; j < matrix[i].size(); j++) {
+                result[j][i] = matrix[i][j];
+            }
+        }
+
+        return Matrix(cols, rows, result);
+    }
+
+    // Computes the inverse of a matrix
+    Matrix Matrix::inverse() {
+        double deter = determinant();
+
+        if (deter == 0) {
+            // Matrix is singular and is therefore not invertible 
+            throw invalid_argument("Matrix is not invertible! It is singular and the determinant is 0");
+        }
+
+        // 1. Get CoFactor Matrix 
+        Matrix Cof = cofactorMatrix();
+        // 2. Transpose CoFactor Matrix 
+        Matrix CofT = Cof.transpose(); 
+        // 3. Divide each of the resuluting elements by the determinant of the original matrix 
+        double scalar = 1 / deter; 
+        Matrix inv = CofT.scalarMultiply(scalar);
+
+
+        return inv; 
+
+    }
+
+
+    double Matrix::determinant() {
+    if (rows != cols) {
+        throw invalid_argument("Determinant can only be computed for a square matrix!");
+    }
+
+    return determinantHelper(matrix);
+}
+
+double Matrix::minorDeterminant(int skipRow, int skipCol) {
+    vector<vector<double>> minor;
+
+    for (int row = 0; row < rows; row++) {
+        if (row == skipRow) {
+            continue;
+        }
+
+        vector<double> newRow;
+
+        for (int col = 0; col < cols; col++) {
+            if (col == skipCol) {
+                continue;
+            }
+
+            newRow.push_back(matrix[row][col]);
+        }
+
+        minor.push_back(newRow);
+    }
+
+    return determinantHelper(minor);
+}
+
+Matrix Matrix::cofactorMatrix() {
+    if (rows != cols) {
+        throw invalid_argument("Cofactor matrix can only be computed for a square matrix!");
+    }
+
+    vector<vector<double>> cofactors(rows, vector<double>(cols));
+
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
+            double minorDet = minorDeterminant(row, col);
+
+            double sign = ((row + col) % 2 == 0) ? 1 : -1;
+
+            cofactors[row][col] = sign * minorDet;
+        }
+    }
+
+    return Matrix(rows, cols, cofactors);
+}
+
+double Matrix::determinantHelper(vector<vector<double>> mat) {
+    int n = mat.size();
+
+    // Base case: 1x1
+    if (n == 1) {
+        return mat[0][0];
+    }
+
+    // Base case: 2x2
+    if (n == 2) {
+        return (mat[0][0] * mat[1][1]) -
+               (mat[0][1] * mat[1][0]);
+    }
+
+    double det = 0;
+
+    // Expand along first row
+    for (int col = 0; col < n; col++) {
+        vector<vector<double>> minor;
+
+        for (int row = 1; row < n; row++) {
+            vector<double> newRow;
+
+            for (int currCol = 0; currCol < n; currCol++) {
+                if (currCol == col) {
+                    continue;
+                }
+
+                newRow.push_back(mat[row][currCol]);
+            }
+
+            minor.push_back(newRow);
+        }
+
+        double sign = (col % 2 == 0) ? 1 : -1;
+
+        det += sign * mat[0][col] * determinantHelper(minor);
+    }
+
+    return det;
+}
+
+
+
+  
+
+    // Debug functions 
+
+    void Matrix::printMatrix() {
+    for (int row = 0; row < matrix.size(); row++) {
+        for (int col = 0; col < matrix[row].size(); col++) {
+            cout << matrix[row][col] << " ";
+        }
+        cout << endl;
+    }
+}
+
+
