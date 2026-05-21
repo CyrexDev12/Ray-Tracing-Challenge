@@ -210,6 +210,43 @@ double Matrix::determinantHelper(vector<vector<double>> mat) {
     return det;
 }
 
+    // Multiplies matrix by tuple, input args tuple should be (x, y, z, w) 4 elements
+    // W = 1 -> Point
+    // W = 0 -> Vector 
+   vector<double> Matrix::multiplyTuple(vector<double>& tuple) {
+    if (tuple.size() != 4) {
+        throw invalid_argument("Tuple size must be 4!");
+    }
+
+    // Convert tuple to 4x1 matrix
+    Matrix m(4, 1, tuple);
+
+    Matrix p = multiplyMatrix(m);
+
+    // Extract x, y, z, w from 4x1 result
+    double x = p.matrix[0][0];
+    double y = p.matrix[1][0];
+    double z = p.matrix[2][0];
+    double w = p.matrix[3][0];
+
+    vector<double> result = {x, y, z, w};
+
+    return result;
+}
+
+    // Matrix factory function 
+    // Creates 4 x 4 matrix to tell our system to move it by points x, y, z
+    Matrix Matrix::translation(double x, double y, double z) {
+    vector<double> arr = {
+        1, 0, 0, x,
+        0, 1, 0, y,
+        0, 0, 1, z,
+        0, 0, 0, 1
+    };
+
+    return Matrix(4, 4, arr);
+}
+
 
 
   

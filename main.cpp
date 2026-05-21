@@ -8,8 +8,27 @@ using namespace std;
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include "Matrix.h"
 
 int main() {
+    vector<double> p = {-3, 4, 5, 1};
+
+    Matrix transform = transform.translation(5, -3, 2);
+
+    vector<double> result = transform.multiplyTuple(p);
+
+for (double val : result) {
+    cout << val << " ";
+}
+
+    return 0;
+}
+
+// TESTS 
+
+
+
+/* void ppmTest() {
     vector<double> initPos = {0.0, 0.0};    // meters (or units)
     vector<double> velocity = {8.0, 15.0};  // initial v (vx, vy)
 
@@ -49,6 +68,4 @@ int main() {
     std::ofstream out("projectile.ppm");
     out << ppm;
     out.close();
-
-    return 0;
-}
+} */

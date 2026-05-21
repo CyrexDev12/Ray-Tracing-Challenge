@@ -38,6 +38,8 @@ class Matrix {
     Matrix inverse();
     Matrix cofactorMatrix();
     Matrix scalarMultiply(double& scalar);
+    Matrix translation(double x, double y, double z);
+    vector<double> multiplyTuple(vector<double>& tuple);
     double determinant(); 
     double determinantHelper(vector<vector<double>> mat);
     double minorDeterminant(int skipRow, int skipCol);
