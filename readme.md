@@ -1,5 +1,8 @@
 Notes: 
 
+Compile Command 
+g++ -std=c++11 main.cpp Matrix.cpp -o program
+
 
 - Tuple: A point like (-4, 4, 3)
 (x,y,z,w)

@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std; 
-#include "Operations.h"
-#include "BasicPhysics.h"
+//#include "Operations.h"
+//#include "BasicPhysics.h"
 #include <vector>
-#include "canvas.h"
+// #include "canvas.h"
 #include <string> 
 #include <sstream>
 #include <iostream>
@@ -11,17 +11,17 @@ using namespace std;
 #include "Matrix.h"
 
 int main() {
-    vector<double> p = {-3, 4, 5, 1};
+   Matrix transform;
+   transform = transform.scale(2, 3, 4);
 
-    Matrix transform = transform.translation(5, -3, 2);
+vector<double> p = {-4, 6, 8, 1};
+vector<double> result = transform.multiplyTuple(p);
+// Expected: {-8, 18, 32, 1}
 
-    vector<double> result = transform.multiplyTuple(p);
-
-for (double val : result) {
-    cout << val << " ";
+for (int i = 0; i < result.size(); i++) {
+    cout << result[i] << " ";
 }
 
-    return 0;
 }
 
 // TESTS 

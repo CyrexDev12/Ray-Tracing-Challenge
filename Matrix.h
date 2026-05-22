@@ -17,8 +17,9 @@ class Matrix {
     public:
 
     // Constructors
-    Matrix(int r, int c, vector<double>& arr); 
+    Matrix(int r, int c, vector<double>& arr);  
     Matrix(int r, int c, vector<vector<double>>& m);
+    Matrix(); 
 
     // Getters 
 
@@ -39,6 +40,7 @@ class Matrix {
     Matrix cofactorMatrix();
     Matrix scalarMultiply(double& scalar);
     Matrix translation(double x, double y, double z);
+    Matrix scale(double x, double y, double z);
     vector<double> multiplyTuple(vector<double>& tuple);
     double determinant(); 
     double determinantHelper(vector<vector<double>> mat);

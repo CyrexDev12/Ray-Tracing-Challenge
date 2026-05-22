@@ -31,6 +31,23 @@ Matrix::Matrix(int r, int c, vector<vector<double>>& m) {
     matrix = m; 
 }
 
+// Default constructor 
+// Constructs 4 * 4 identify matrix 
+Matrix::Matrix() {
+int r = 4; 
+int c = 4; 
+
+vector<double> arr = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+
+Matrix(r, c, arr);
+
+}
+
 
 Matrix Matrix::scalarMultiply(double& scalar) {
 
@@ -246,6 +263,22 @@ double Matrix::determinantHelper(vector<vector<double>> mat) {
 
     return Matrix(4, 4, arr);
 }
+
+
+    // Scales vectors and points 
+    // Returns a 4 * 4 matrix 
+    // Matrix factory function 
+    // Sclales along the diagonal
+    Matrix Matrix::scale(double x, double y, double z) {
+        vector<double> arr = {
+        x, 0, 0, 0,
+        0, y, 0, 0,
+        0, 0, z, 0,
+        0, 0, 0, 1
+    };
+
+    return Matrix(4, 4, arr);
+    }
 
 
 
