@@ -272,3 +272,7 @@ void printColor(const string& label, const Color& c) {
          << static_cast<int>(c.g) << ", "
          << static_cast<int>(c.b) << ")\n";
 }
+
+double toRadians(double degrees) {
+    return degrees * (M_PI / 180.0);
+}

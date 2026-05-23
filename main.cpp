@@ -11,16 +11,18 @@ using namespace std;
 #include "Matrix.h"
 
 int main() {
-   Matrix transform;
-   transform = transform.scale(2, 3, 4);
+    Matrix transform;
+    transform = transform.rotateX(M_PI / 2);
 
-vector<double> p = {-4, 6, 8, 1};
-vector<double> result = transform.multiplyTuple(p);
-// Expected: {-8, 18, 32, 1}
+    vector<double> p = {0, 1, 0, 1};
 
-for (int i = 0; i < result.size(); i++) {
-    cout << result[i] << " ";
-}
+    vector<double> result = transform.multiplyTuple(p);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << " ";
+    }
+
+    return 0;
 
 }
 

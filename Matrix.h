@@ -32,7 +32,7 @@ class Matrix {
     }
 
 
-    // Operations 
+    // Standard Operations 
     
     Matrix multiplyMatrix(Matrix& b);
     Matrix transpose();
@@ -42,6 +42,11 @@ class Matrix {
     Matrix translation(double x, double y, double z);
     Matrix scale(double x, double y, double z);
     vector<double> multiplyTuple(vector<double>& tuple);
+    // Rotations 
+    Matrix rotateX(double radians);
+    Matrix rotateY(double radians);
+    Matrix rotateZ(double radians);
+    // Calculations returned as double 
     double determinant(); 
     double determinantHelper(vector<vector<double>> mat);
     double minorDeterminant(int skipRow, int skipCol);

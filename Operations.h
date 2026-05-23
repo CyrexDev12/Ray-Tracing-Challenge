@@ -19,6 +19,7 @@ void PrintTuple(const vector<double>& x);
 vector<double> NormalizeTuple(const vector<double>& x);
 double CalculateDotProd(const vector<double>& x1, const vector<double>& x2);
 vector<double> CrossProduct(const vector<double>& a, const vector<double>& b);
+double toRadians(double degrees);
 
 // Color 
 Color makeColor(const std::vector<double>& rgb);

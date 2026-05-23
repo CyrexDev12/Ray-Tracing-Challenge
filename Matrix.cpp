@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include "iostream"
+#include <cmath>
 using namespace std; 
 
 
@@ -278,6 +279,46 @@ double Matrix::determinantHelper(vector<vector<double>> mat) {
     };
 
     return Matrix(4, 4, arr);
+    }
+
+    // For rotation around the x-axis, x stays the same, while y and z change:
+    Matrix Matrix::rotateX(double r) {
+
+        vector<double> arr = {
+        1, 0, 0, 0,
+        0, cos(r), -sin(r), 0,
+        0, sin(r), cos(r), 0,
+        0, 0, 0, 1
+    };
+
+    return Matrix(4, 4, arr);
+    }
+
+    // For rotation around the y-axis, y stays the same, while x and z change:
+    Matrix Matrix::rotateY(double r) {
+        vector<double> arr = {
+        cos(r), 0, sin(r), 0,
+         0, 1, 0, 0,
+        -sin(r), 0, cos(r), 0,
+        0, 0, 0, 1
+        };
+
+        return Matrix(4, 4, arr);
+
+    }
+
+     // For rotation around the z-axis, z stays the same, while x and y change:
+    Matrix Matrix::rotateZ(double r) {
+        vector<double> arr = {
+    cos(r), -sin(r), 0, 0,
+    sin(r), cos(r), 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+    };
+
+
+    return Matrix(4, 4, arr);
+
     }
 
 
