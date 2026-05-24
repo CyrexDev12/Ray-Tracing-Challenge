@@ -281,6 +281,27 @@ double Matrix::determinantHelper(vector<vector<double>> mat) {
     return Matrix(4, 4, arr);
     }
 
+
+    // Shearing transformation
+    // xy: x changes in proportion to y
+    // xz: x changes in proportion to z
+    // yx: y changes in proportion to x
+    // yz: y changes in proportion to z
+    // zx: z changes in proportion to x
+    // zy: z changes in proportion to y
+    Matrix Matrix::shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+        vector<double> arr = {
+            1,  xy, xz, 0,
+            yx, 1,  yz, 0,
+            zx, zy, 1,  0,
+            0,  0,  0,  1
+        };
+
+        return Matrix(4, 4, arr);
+    }
+
+
+
     // For rotation around the x-axis, x stays the same, while y and z change:
     Matrix Matrix::rotateX(double r) {
 

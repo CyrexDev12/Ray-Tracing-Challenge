@@ -8,23 +8,28 @@ using namespace std;
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 #include "Matrix.h"
 
-int main() {
-    Matrix transform;
-    transform = transform.rotateX(M_PI / 2);
 
-    vector<double> p = {0, 1, 0, 1};
+const double PI = 3.14159265358979323846;
 
-    vector<double> result = transform.multiplyTuple(p);
 
-    for (int i = 0; i < result.size(); i++) {
-        cout << result[i] << " ";
-    }
+// int main() {
+//     Matrix transform;
+//     transform = transform.rotateX(M_PI / 2);
 
-    return 0;
+//     vector<double> p = {0, 1, 0, 1};
 
-}
+//     vector<double> result = transform.multiplyTuple(p);
+
+//     for (int i = 0; i < result.size(); i++) {
+//         cout << result[i] << " ";
+//     }
+
+//     return 0;
+
+// }
 
 // TESTS 
 
@@ -71,3 +76,87 @@ int main() {
     out << ppm;
     out.close();
 } */
+
+
+
+using namespace std;
+
+bool almostEqual(double a, double b) {
+    return fabs(a - b) < 0.00001;
+}
+
+bool tupleEqual(const vector<double>& a, const vector<double>& b) {
+    if (a.size() != b.size()) return false;
+
+    for (int i = 0; i < a.size(); i++) {
+        if (!almostEqual(a[i], b[i])) return false;
+    }
+
+    return true;
+}
+
+void runShearingTest(string testName, Matrix transform, vector<double> p, vector<double> expected) {
+    vector<double> result = transform.multiplyTuple(p);
+
+    cout << testName << ": ";
+
+    if (tupleEqual(result, expected)) {
+        cout << "PASS";
+    } else {
+        cout << "FAIL - got ";
+        for (double value : result) {
+            cout << value << " ";
+        }
+    }
+
+    cout << endl;
+}
+
+int main() {
+    Matrix transform;
+    vector<double> p = {2, 3, 4, 1};
+
+    runShearingTest(
+        "x moves in proportion to y",
+        transform.shearing(1, 0, 0, 0, 0, 0),
+        p,
+        {5, 3, 4, 1}
+    );
+
+    runShearingTest(
+        "x moves in proportion to z",
+        transform.shearing(0, 1, 0, 0, 0, 0),
+        p,
+        {6, 3, 4, 1}
+    );
+
+    runShearingTest(
+        "y moves in proportion to x",
+        transform.shearing(0, 0, 1, 0, 0, 0),
+        p,
+        {2, 5, 4, 1}
+    );
+
+    runShearingTest(
+        "y moves in proportion to z",
+        transform.shearing(0, 0, 0, 1, 0, 0),
+        p,
+        {2, 7, 4, 1}
+    );
+
+    runShearingTest(
+        "z moves in proportion to x",
+        transform.shearing(0, 0, 0, 0, 1, 0),
+        p,
+        {2, 3, 6, 1}
+    );
+
+    runShearingTest(
+        "z moves in proportion to y",
+        transform.shearing(0, 0, 0, 0, 0, 1),
+        p,
+        {2, 3, 7, 1}
+    );
+
+    return 0;
+}
