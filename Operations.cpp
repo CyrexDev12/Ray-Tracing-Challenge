@@ -274,5 +274,6 @@ void printColor(const string& label, const Color& c) {
 }
 
 double toRadians(double degrees) {
-    return degrees * (M_PI / 180.0);
+    const double PI = 3.14159265358979323846;
+    return degrees * (/*M_PI*/ PI / 180.0);
 }

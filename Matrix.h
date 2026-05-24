@@ -41,6 +41,7 @@ class Matrix {
     Matrix scalarMultiply(double& scalar);
     Matrix translation(double x, double y, double z);
     Matrix scale(double x, double y, double z);
+    Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy);
     vector<double> multiplyTuple(vector<double>& tuple);
     // Rotations 
     Matrix rotateX(double radians);
