@@ -15,7 +15,9 @@ using namespace std;
 
 int main() {
 
-   AnalogClockPPM();
+   //AnalogClockPPM();
+
+   runRayTransformTests();
 
    return 0; 
 };

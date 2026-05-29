@@ -6,3 +6,13 @@
     vector<double> scaledDirection = ScaleTuple(direction, t);
     return AddTuples(origin, scaledDirection);
 }
+
+
+Ray Ray::transform(Matrix m) {
+    Ray transformedRay;
+
+    transformedRay.origin = m.multiplyTuple(origin);
+    transformedRay.direction = m.multiplyTuple(direction);
+
+    return transformedRay;
+}

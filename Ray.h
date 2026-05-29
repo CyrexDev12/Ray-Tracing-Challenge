@@ -3,6 +3,9 @@
 #include <iostream>
 #include <vector>
 #include "Operations.h"
+#include "Matrix.h"
+
+
 using namespace std; 
 
 
@@ -17,11 +20,11 @@ using namespace std;
 struct Ray {
     vector<double> origin; // POINT
     vector<double> direction; // VECTOR
-
+    
 
     // Compute the point at the given distance t along the ray
     vector<double> position(double t);
-
+    Ray transform(Matrix m);
 };
 
 

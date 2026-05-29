@@ -152,3 +152,48 @@ void AnalogClockPPM() {
 
     out << canvas.convertToPpm();
 }
+
+
+
+// Ray Transform Tests
+
+void runRayTransformTests() {
+    Matrix transform;
+
+    Ray r = {
+        {1, 2, 3, 1},
+        {0, 1, 0, 0}
+    };
+
+    Matrix translationMatrix = transform.translation(3, 4, 5);
+    Ray translatedRay = r.transform(translationMatrix);
+
+    cout << "Translating a ray: ";
+
+    if (
+        tupleEqual(translatedRay.origin, {4, 6, 8, 1}) &&
+        tupleEqual(translatedRay.direction, {0, 1, 0, 0})
+    ) {
+        cout << "PASS";
+    } else {
+        cout << "FAIL";
+    }
+
+    cout << endl;
+
+    Matrix scaleMatrix = transform.scale(2, 3, 4);
+    Ray scaledRay = r.transform(scaleMatrix);
+
+    cout << "Scaling a ray: ";
+
+    if (
+        tupleEqual(scaledRay.origin, {2, 6, 12, 1}) &&
+        tupleEqual(scaledRay.direction, {0, 3, 0, 0})
+    ) {
+        cout << "PASS";
+    } else {
+        cout << "FAIL";
+    }
+
+    cout << endl;
+}
