@@ -41,6 +41,23 @@ bool isTuple(const vector<double> &point) {
     return point.size() == 4;
 }
 
+vector<double> AddTuples(const vector<double>& a, const vector<double>& b) {
+        if (a.size() != b.size()) {
+            throw invalid_argument("SubtractTuples: vectors must have same size");
+        }
+
+        vector<double> result; 
+        result.reserve(a.size()); 
+
+        for (size_t i = 0; i < a.size(); i++) {
+            result.push_back(a[i] + b[i]);
+        }
+
+        return result; 
+
+
+}
+
 // Matches: vector<double> SubtractTuples(const vector<double>& x2, const vector<double>& x1);
 vector<double> SubtractTuples(const vector<double>& x2, const vector<double>& x1) {
     if (x2.size() != x1.size()) {

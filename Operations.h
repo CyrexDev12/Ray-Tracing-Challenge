@@ -11,6 +11,7 @@ struct Color {
 
 bool isTuple(const vector<double> &point);
 bool TuplesEqual(const vector<double> &tup1, const vector<double> &tup2);
+vector<double> AddTuples(const vector<double>& a, const vector<double>& b);
 vector<double> SubtractTuples(const vector<double>& x2, const vector<double>& x1);
 vector<double> NegateTuple(const vector<double>& x); 
 vector<double> ScaleTuple(const vector<double>& x, double& scalar); 
