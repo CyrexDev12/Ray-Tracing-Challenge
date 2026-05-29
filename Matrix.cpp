@@ -35,18 +35,15 @@ Matrix::Matrix(int r, int c, vector<vector<double>>& m) {
 // Default constructor 
 // Constructs 4 * 4 identify matrix 
 Matrix::Matrix() {
-int r = 4; 
-int c = 4; 
+    rows = 4;
+    cols = 4;
 
-vector<double> arr = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
+    matrix = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1}
     };
-
-Matrix(r, c, arr);
-
 }
 
 

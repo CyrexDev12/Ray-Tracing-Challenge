@@ -1,4 +1,7 @@
 #include "Tests.h"
+#define M_PI       3.14159265358979323846   // pi
+#include <cmath>
+#include <fstream>
 using namespace std; 
 
 
@@ -103,4 +106,49 @@ for (double val : result) {
     cout << round(val * 100000) / 100000 << " ";
 }
 
+}
+
+
+// Represent points as homogeneous coordinates: (x, y, z, w)
+// The clock lies flat in the XY plane, so z = 0.
+// To spin points around the center of the clock, rotate around the Z axis.
+// For Every Hour 
+// Matrix rotation = Matrix::rotateZ(angle * hour);
+// vector<double> rotated = rotation.multiplyTuple(point);
+// Then we convert from math coordinates to canvas pixels 
+// int x = canvasWidth / 2 + rotated[0] * radius;
+// int y = canvasHeight / 2 + rotated[1] * radius;
+
+// White rgb(255, 255, 255)
+void AnalogClockPPM() {
+    Canvas canvas(500, 500);
+
+    vector<double> whiteColorVec = {255, 255, 255};
+    Color white = makeColor(whiteColorVec);
+
+    double radius = 200.0;
+    double angleStep = M_PI / 6.0;
+
+    vector<double> pt = {0, -1, 0, 1};
+
+    for (int hour = 0; hour < 12; hour++) {
+        Matrix transform;
+        Matrix rm = transform.rotateZ(angleStep * hour);
+
+        vector<double> rotated = rm.multiplyTuple(pt);
+
+        int x = static_cast<int>(canvas.width / 2 + rotated[0] * radius);
+        int y = static_cast<int>(canvas.height / 2 + rotated[1] * radius);
+
+        canvas.writePixel(x, y, white);
+    }
+
+    ofstream out("analogClock.ppm");
+
+    if (!out) {
+        cerr << "Could not create analogClock.ppm" << endl;
+        return;
+    }
+
+    out << canvas.convertToPpm();
 }
