@@ -2,6 +2,7 @@
 #define M_PI       3.14159265358979323846   // pi
 #include <cmath>
 #include <fstream>
+#include "Sphere.h"
 using namespace std; 
 
 
@@ -190,6 +191,28 @@ void runRayTransformTests() {
         tupleEqual(scaledRay.origin, {2, 6, 12, 1}) &&
         tupleEqual(scaledRay.direction, {0, 3, 0, 0})
     ) {
+        cout << "PASS";
+    } else {
+        cout << "FAIL";
+    }
+
+    cout << endl;
+}
+
+void SphereIntersectionTest() {
+    Sphere s;
+    Ray r = {
+        {0, 0, -5, 1},
+        {0, 0, 1, 0}
+    };
+
+    vector<double> intersections = s.intersect(r);
+
+    cout << "Intersecting a ray with a sphere: ";
+
+    if (intersections.size() == 2 &&
+        almostEqual(intersections[0], 4.0) &&
+        almostEqual(intersections[1], 6.0)) {
         cout << "PASS";
     } else {
         cout << "FAIL";

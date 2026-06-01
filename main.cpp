@@ -15,9 +15,9 @@ using namespace std;
 
 int main() {
 
-   //AnalogClockPPM();
+   
 
-   runRayTransformTests();
+   SphereIntersectionTest();
 
    return 0; 
 };

@@ -16,6 +16,7 @@ void chainingMatrixTransTest();
 void AnalogClockPPM();
 
 void runRayTransformTests();
+void SphereIntersectionTest();
 
 
 
