@@ -270,7 +270,7 @@ void TranslateRay() {
     
         cout << endl;
 }
- */
+ 
 
 void IntersectScaledSphereWithRay() {
     Sphere s;
@@ -303,6 +303,54 @@ void IntersectScaledSphereWithRay() {
     }
 
     cout << endl;
+}
+
+*/
+// Cast a ray to a sphere and draw a pictures to a canvas 
+// Any ray that hits the sphere should result in a red pixel, and any miss shall be drawn as black 
+
+void RaySphereCanvas() {
+    const int canvasSize = 200;
+    Canvas canvas(canvasSize, canvasSize);
+
+    Sphere s;
+    Matrix m; 
+    Matrix Scale = m.scale(50, 50, 50);
+
+    s.settransform(Scale);
+
+    // White rgb(255, 255, 255)
+    // Red rgb(255, 0, 0)
+    vector<double> redColorVec = {255, 0, 0};
+    Color red = makeColor(redColorVec);
+
+    for (int x = 0; x < canvas.width; x++) {
+        for (int y = 0; y < canvas.height; y++) {
+            double rayX = x - canvas.width / 2;
+            double rayY = y - canvas.height / 2;
+            Ray r = {
+                {rayX, rayY, -100, 1},
+                {0, 0, 1, 0}
+            };
+
+            vector<double> intersections = s.intersect(r);
+            if (!intersections.empty()) {
+                canvas.writePixel(x, y, red);
+            }
+        }
+    }
+
+    ofstream out("raySphereCanvas.ppm");
+
+    if (!out) {
+        cerr << "Could not create raySphereCanvas.ppm" << endl;
+        return;
+    }
+
+        string ppm = canvas.convertToPpm();
+
+        out << ppm;
+        out.close();
 }
 
 

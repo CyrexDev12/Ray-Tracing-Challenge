@@ -51,3 +51,20 @@ Rotation
 To sum up transformations, whatever transformation we want to apply to the sphere, we apply the inverse to the ray. 
 
 
+Lighting and Shading 
+
+- We implement a model to simulate the reflection of light from a surface, which allows us to draw the sphere and make it look '3D' 
+
+HOW TO: 
+- Implement a source of light 
+- Implement a shading algorithm to approximate how birhgtly that light illuminates the surfaces it shines on 
+
+(Most ray tracers favor approximations over physically accurate simulations)
+
+We define 4 different vectors 
+If p is where your ray intersects an object, these four vectors are defined as: 
+- E is the eye vector, pointing from p to the origin of the ray.
+- L is the light vector, poiting from p to the position of the light source.
+- N is the surface normal, a vector that is perpendicular to the surface at P. 
+- R is the reflection vector, poiting in the direction that incoming light would bounce, or reflect. 
+

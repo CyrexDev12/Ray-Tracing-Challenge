@@ -18,7 +18,7 @@ int main() {
 
    
 
-  IntersectScaledSphereWithRay();
+  RaySphereCanvas();
 
 
   

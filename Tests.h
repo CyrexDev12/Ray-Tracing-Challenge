@@ -19,10 +19,10 @@ void runRayTransformTests();
 void SphereIntersectionTest();
 void hitTest();
 void TranslateRay();
-*/ 
+void IntersectScaledSphereWithRay(); 
+*/
 
-
-void IntersectScaledSphereWithRay();
+void RaySphereCanvas();
 
 // TEMP 
 
