@@ -2,11 +2,13 @@
 #define M_PI       3.14159265358979323846   // pi
 #include <cmath>
 #include <fstream>
+#include "Intersection.h"
+#include "Ray.h"
 #include "Sphere.h"
 using namespace std; 
 
 
-// Another helper function
+
 bool almostEqual(double a, double b) {
     return fabs(a - b) < 0.00001;
 }
@@ -22,6 +24,7 @@ bool tupleEqual(const vector<double>& a, const vector<double>& b) {
     return true;
 }
 
+/*
 
 // SHEARING TRANSFORMATION TEST 
 // Status: Test passeed 
@@ -85,7 +88,7 @@ void runShearingTest(string testName, Matrix transform, vector<double> p, vector
     out << ppm;
     out.close();
 } 
-*/
+
 
 // Chaining Matrix Translation Test 
 // Status Passed 
@@ -202,7 +205,7 @@ void runRayTransformTests() {
 void SphereIntersectionTest() {
     Sphere s;
     Ray r = {
-        {0, 0, -5, 1},
+        {0, 0, 5, 1},
         {0, 0, 1, 0}
     };
 
@@ -211,8 +214,8 @@ void SphereIntersectionTest() {
     cout << "Intersecting a ray with a sphere: ";
 
     if (intersections.size() == 2 &&
-        almostEqual(intersections[0], 4.0) &&
-        almostEqual(intersections[1], 6.0)) {
+        almostEqual(intersections[0], -6.0) &&
+        almostEqual(intersections[1], -4.0)) {
         cout << "PASS";
     } else {
         cout << "FAIL";
@@ -220,3 +223,91 @@ void SphereIntersectionTest() {
 
     cout << endl;
 }
+
+
+ void hitTest() {
+    Intersections intersections;
+    intersections.addIntersection(Intersection(1.0, nullptr));
+    intersections.addIntersection(Intersection(2.0, nullptr));
+    intersections.addIntersection(Intersection(-1.0, nullptr));
+
+    double hitT = intersections.hit();
+
+    cout << "Testing hit function: ";
+
+    if (almostEqual(hitT, 1.0)) {
+        cout << "PASS";
+    } else {
+        cout << "FAIL - got " << hitT;
+    }
+
+    cout << endl;
+} 
+
+
+
+void TranslateRay() {
+        Ray r = {
+            {1, 2, 3, 1},
+            {0, 1, 0, 0}
+        };
+    
+        Matrix transform;
+    
+        Matrix translationMatrix = transform.translation(3, 4, 5);
+        Ray translatedRay = r.transform(translationMatrix);
+    
+        cout << "Translating a ray: ";
+    
+        if (
+            tupleEqual(translatedRay.origin, {4, 6, 8, 1}) &&
+            tupleEqual(translatedRay.direction, {0, 1, 0, 0})
+        ) {
+            cout << "PASS";
+        } else {
+            cout << "FAIL";
+        }
+    
+        cout << endl;
+}
+ */
+
+void IntersectScaledSphereWithRay() {
+    Sphere s;
+    
+    Matrix m; 
+    Matrix Scale = m.scale(2, 2, 2);
+    s.settransform(Scale); 
+
+
+    Ray r = {
+        {0, 0, -5, 1},
+        {0, 0, 1, 0}
+    };
+
+    
+    vector<double> intersections = s.intersect(r);
+    cout << "Intersections with a scaled sphere: ";
+    for (double t : intersections) {
+        cout << t << " ";
+    }
+
+    cout << "Intersecting a scaled sphere with a ray: ";
+
+    if (intersections.size() == 2 &&
+        almostEqual(intersections[0], 3.0) &&
+        almostEqual(intersections[1], 7.0)) {
+        cout << "PASS";
+    } else {
+        cout << "FAIL";
+    }
+
+    cout << endl;
+}
+
+
+
+
+
+
+

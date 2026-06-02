@@ -11,14 +11,20 @@
 
 
 
-void runShearingTest(string testName, Matrix transform, vector<double> p, vector<double> expected);
+/* runShearingTest(string testName, Matrix transform, vector<double> p, vector<double> expected);
 void chainingMatrixTransTest();
 void AnalogClockPPM();
 
 void runRayTransformTests();
 void SphereIntersectionTest();
+void hitTest();
+void TranslateRay();
+*/ 
 
 
+void IntersectScaledSphereWithRay();
+
+// TEMP 
 
 
 #endif

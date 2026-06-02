@@ -7,12 +7,15 @@
     return AddTuples(origin, scaledDirection);
 }
 
-
+// Apply a transformation to the ray by transforming both its origin and direction using the provided matrix
+// Then return a new ray with the transformed origin and direction
 Ray Ray::transform(Matrix m) {
-    Ray transformedRay;
+    Ray transformed_ray; 
 
-    transformedRay.origin = m.multiplyTuple(origin);
-    transformedRay.direction = m.multiplyTuple(direction);
 
-    return transformedRay;
+    transformed_ray.origin = m.multiplyTuple(this->origin);
+    transformed_ray.direction = m.multiplyTuple(this->direction);
+
+  return transformed_ray;
+
 }

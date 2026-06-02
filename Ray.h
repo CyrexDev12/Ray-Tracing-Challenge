@@ -25,6 +25,21 @@ struct Ray {
     // Compute the point at the given distance t along the ray
     vector<double> position(double t);
     Ray transform(Matrix m);
+
+    // Debug function
+    void printRay() {
+        cout << "Ray Origin: ";
+        for (double value : origin) {
+            cout << value << " ";
+        }
+        cout << "\nRay Direction: ";
+        for (double value : direction) {
+            cout << value << " ";
+        }
+        cout << endl;
+    }
+
+    
 };
 
 

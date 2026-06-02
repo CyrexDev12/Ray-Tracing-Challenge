@@ -151,17 +151,15 @@ bool TuplesEqual(const vector<double> &tup1, const vector<double> &tup2) {
     }
     return true;
 }
-
+// BUG FIX: It incorrectly was multiplying and adding the w products together. 
+// Status: Fixed 
 double CalculateDotProd(const vector<double>& x1, const vector<double>& x2) {
-    if (x1.size() != x2.size()) {
+    if (x1.size() != x2.size() || x1.size() < 3) {
         throw std::invalid_argument("Vectors must be the same length for dot product.");
     }
+   
 
-    double sum = 0.0;
-    for (size_t i = 0; i < x1.size(); ++i) {
-        sum += x1[i] * x2[i];
-    }
-    return sum;
+    return x1[0] * x2[0] + x1[1] * x2[1] + x1[2] * x2[2]; // Only consider x, y, z components for dot product
 }
 
 

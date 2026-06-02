@@ -14,6 +14,7 @@ private:
 double radius; 
 double diamater;
 vector<double> position;
+Matrix transformMatrix; // Transformation matrix for the sphere (e.g., for scaling, translation, etc.)
 
 
 public:
@@ -25,6 +26,21 @@ Sphere();
 
 vector<double> intersect(Ray ray);
 
+Matrix getTransform() {
+    return transformMatrix;
+
+}
+
+
+void settransform(Matrix m) {
+    this->transformMatrix = m;
+
+} 
+
+
+
+
 };
+
 
 #endif

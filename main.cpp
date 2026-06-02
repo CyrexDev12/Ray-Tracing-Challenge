@@ -11,13 +11,17 @@ using namespace std;
 #include <cmath>
 #include "Matrix.h"
 #include "Tests.h"
+#include "Intersection.h"
 
 
 int main() {
 
    
 
-   SphereIntersectionTest();
+  IntersectScaledSphereWithRay();
+
+
+  
 
    return 0; 
 };
