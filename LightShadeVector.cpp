@@ -8,26 +8,29 @@
  }
 
  // Subtract p from the position of the light source, giving you the vector poiting toward the light. 
-void LightShadeVector::CalculateLightVector(vector<double>& lightPosition, vector<double>& pointP) {
+void LightShadeVector::CalculateLightVector(vector<double> lightPosition, vector<double>& pointP) {
     L = SubtractTuples(lightPosition, pointP);
 } 
 
 void LightShadeVector::CalculateNormalVector(vector<double>& pointP, Sphere& s) {
-    // To calculate the normal vector, we need to find the point on the sphere's surface that corresponds to pointP. 
-    // We can do this by applying the inverse of the sphere's transformation to pointP, which will give us the point in object space. 
-    // Then we can calculate the normal vector in object space, which is simply the vector from the center of the sphere to the point on its surface. 
-    // Finally, we can apply the transpose of the inverse of the sphere's transformation to the normal vector to get it back into world space. 
-
     Matrix inverseTransform = s.getTransform().inverse();
     vector<double> objectPoint = inverseTransform.multiplyTuple(pointP);
-    vector<double> objectNormal = SubtractTuples(objectPoint, {0, 0, 0}); // Center of sphere is at origin in object space
+    
+    // Explicitly enforce that the normal is a VECTOR (w = 0)
+    vector<double> objectNormal = SubtractTuples(objectPoint, {0, 0, 0, 1}); 
+    objectNormal[3] = 0.0; 
+
     N = inverseTransform.transpose().multiplyTuple(objectNormal);
+    N[3] = 0.0; // Ensure the output remains a clean vector
+    N = NormalizeTuple(N); // Normals must be unit vectors
 }
 
-
-void LightShadeVector::CalculateReflectionVector(vector<double>& L, vector<double>& N) {
-    // The reflection vector R can be calculated using the formula: R = L - 2 * (L . N) * N
+void LightShadeVector::CalculateReflectionVector() {
+    // If L points from the surface toward the light: R = 2 * (N . L) * N - L
     double dotProductParam = 2 * CalculateDotProd(L, N);
     vector<double> scaledNormal = ScaleTuple(N, dotProductParam);
-    R = SubtractTuples(L, scaledNormal);
+    
+    // Correcting the subtraction order for standard ray-tracing reflection
+    R = SubtractTuples(scaledNormal, L); 
+    R[3] = 0.0; // Enforce vector property
 }

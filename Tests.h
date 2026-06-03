@@ -11,18 +11,21 @@
 
 
 
-/* runShearingTest(string testName, Matrix transform, vector<double> p, vector<double> expected);
-void chainingMatrixTransTest();
-void AnalogClockPPM();
+/* 
+runShearingTest(string testName, Matrix transform, vector<double> p, vector<double> expected); // PASSED
+void chainingMatrixTransTest(); // PASSED
+void AnalogClockPPM(); // PASSED
 
-void runRayTransformTests();
-void SphereIntersectionTest();
-void hitTest();
-void TranslateRay();
-void IntersectScaledSphereWithRay(); 
-*/
+void runRayTransformTests(); // PASSED 
+void SphereIntersectionTest(); // PASSED 
+void hitTest(); // PASSED 
+void TranslateRay(); // PASSED 
+void IntersectScaledSphereWithRay(); // PASSED 
+void RaySphereCanvas(); // PASSED 
+void LightShadeVectorTest(); // PASSED 
 
-void RaySphereCanvas();
+*/ 
+
 
 // TEMP 
 

@@ -68,3 +68,13 @@ If p is where your ray intersects an object, these four vectors are defined as:
 - N is the surface normal, a vector that is perpendicular to the surface at P. 
 - R is the reflection vector, poiting in the direction that incoming light would bounce, or reflect. 
 
+Phong Reflection Model 
+Simulates interaction between three different types of lighting. 
+
+- Ambient Reflection: Background lighting. Or light reflected from other objects in its environment. The Phong model treats this as a constant coloring all points on the surface equally. 
+- Diffuse Reflection: Light reflected from a matte surface. It depends only on the angle between the light source and the surface normal. 
+- Specular Reflection: Reflection of the light source itself and results in what is called a specular highlight. The bright spot on a curved surface. It depends only on the angle between the reflection vector and the eye vector and is controlled by a parameter that we cann shininess. The higher the shininess the smaller and tighter the specular highlight. 
+
+
+The lighting Function (Located within the object class, e.g. sphere)
+Expects 5 arguments material, point being illuminated, the light source, eye and normal vectors from the phong reflection model. 

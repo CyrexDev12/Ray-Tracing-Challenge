@@ -122,23 +122,34 @@ void PrintTuple(const vector<double>& x) {
 }
 
 vector<double> NormalizeTuple(const vector<double>& x) {
-    double mag = GetMagnitude(x);
-
-    // Guard against zero vector (can't normalize it)
-    if (nearlyEqual(mag, 0.0)) {
-        throw invalid_argument("NormalizeTuple: cannot normalize zero-length vector");
+    // If it's a standard 3D vector, normalize normally
+    if (x.size() == 3) {
+        double mag = GetMagnitude(x);
+        if (nearlyEqual(mag, 0.0)) throw invalid_argument("Cannot normalize zero-length vector");
+        
+        double invMag = 1.0 / mag;
+        return { x[0] * invMag, x[1] * invMag, x[2] * invMag };
     }
 
-    double invMag = 1.0 / mag;
-
-    vector<double> result;
-    result.reserve(x.size());
-    for (size_t i = 0; i < x.size(); ++i) {
-        result.push_back(x[i] * invMag);
+    // If it's a 4D homogeneous coordinate
+    if (x.size() == 4) {
+        // If w == 0, it's a directional vector. Normalize x, y, z and keep w = 0.
+        if (nearlyEqual(x[3], 0.0)) {
+            double mag = sqrt(x[0]*x[0] + x[1]*x[1] + x[2]*x[2]);
+            if (nearlyEqual(mag, 0.0)) throw invalid_argument("Cannot normalize zero-length vector");
+            
+            double invMag = 1.0 / mag;
+            return { x[0] * invMag, x[1] * invMag, x[2] * invMag, 0.0 };
+        } 
+        
+        // If w != 0, it's a point. Project to 3D space by dividing by w.
+        double invW = 1.0 / x[3];
+        return { x[0] * invW, x[1] * invW, x[2] * invW, 1.0 };
     }
 
-    return result;
+    throw invalid_argument("Unsupported vector size");
 }
+
 
 // Matches: bool TuplesEqual(const vector<double> &tup1, const vector<double> &tup2);
 bool TuplesEqual(const vector<double> &tup1, const vector<double> &tup2) {
@@ -292,3 +303,20 @@ double toRadians(double degrees) {
     const double PI = 3.14159265358979323846;
     return degrees * (/*M_PI*/ PI / 180.0);
 }
+
+
+bool isPoint(const vector<double> &point) {
+    if (point.size() != 4){
+        throw invalid_argument("isPoint: input must be a 4D tuple");
+    }
+
+    return isTuple(point) && nearlyEqual(point[3], 1.0);
+}
+
+bool isVector(const vector<double> &point) {
+    if (point.size() != 4){
+        throw invalid_argument("isVector: input must be a 4D tuple");
+    }
+    return isTuple(point) && nearlyEqual(point[3], 0.0);
+}
+

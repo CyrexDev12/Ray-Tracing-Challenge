@@ -44,11 +44,11 @@ struct LightShadeVector {
 
     void CalculateEyeVector(vector<double>& rayOrigin); 
 
-    void CalculateLightVector(vector<double>& lightPosition, vector<double>& pointP);
+    void CalculateLightVector(vector<double> lightPosition, vector<double>& pointP);
 
     void CalculateNormalVector(vector<double>& pointP, Sphere& s);
 
-    void CalculateReflectionVector(vector<double>& L, vector<double>& N);
+    void CalculateReflectionVector();
 
 };
 

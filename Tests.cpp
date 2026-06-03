@@ -5,6 +5,8 @@
 #include "Intersection.h"
 #include "Ray.h"
 #include "Sphere.h"
+#include <cassert>
+#include "LightShadeVector.h"
 using namespace std; 
 
 
@@ -305,9 +307,11 @@ void IntersectScaledSphereWithRay() {
     cout << endl;
 }
 
-*/
+
 // Cast a ray to a sphere and draw a pictures to a canvas 
 // Any ray that hits the sphere should result in a red pixel, and any miss shall be drawn as black 
+
+
 
 void RaySphereCanvas() {
     const int canvasSize = 200;
@@ -353,6 +357,79 @@ void RaySphereCanvas() {
         out.close();
 }
 
+
+
+    // Calculate all the vectors 
+void LightShadeVectorTest() {
+    cout << "--- Running LightShadeVector Tuple (w) Tests ---\n" << endl;
+
+    // 1. Test CalculateEyeVector
+    {
+        LightShadeVector lsv;
+        vector<double> rayOrigin = {1.0, -2.0, 3.0, 1.0}; // Point
+        lsv.CalculateEyeVector(rayOrigin);
+        
+        assert(lsv.E.size() == 4);
+        assert(abs(lsv.E[0] - (-1.0)) < 1e-6);
+        assert(abs(lsv.E[1] - 2.0) < 1e-6);
+        assert(abs(lsv.E[2] - (-3.0)) < 1e-6);
+        // Note: Decide if your NegateTuple flips w. Usually, an eye vector should have w = 0.
+        cout << "[PASS] CalculateEyeVector executed successfully." << endl;
+    }
+
+    // 2. Test CalculateLightVector
+    {
+        LightShadeVector lsv;
+        vector<double> lightPosition = {0.0, 10.0, 0.0, 1.0}; // Point
+        vector<double> pointP        = {0.0, 2.0, 0.0, 1.0};  // Point
+        lsv.CalculateLightVector(lightPosition, pointP);
+        
+        // Point - Point = Vector (w = 0)
+        assert(lsv.L.size() == 4);
+        assert(abs(lsv.L[0] - 0.0) < 1e-6);
+        assert(abs(lsv.L[1] - 8.0) < 1e-6);
+        assert(abs(lsv.L[2] - 0.0) < 1e-6);
+        assert(abs(lsv.L[3] - 0.0) < 1e-6); // Verifying w component conversion
+        cout << "[PASS] CalculateLightVector creates a clean vector (w=0)." << endl;
+    }
+
+    // 3. Test CalculateNormalVector (Untransformed Sphere)
+    {
+        LightShadeVector lsv;
+        Sphere s; 
+        vector<double> pointP = {0.0, 1.0, 0.0, 1.0}; // Point on top of sphere
+        lsv.CalculateNormalVector(pointP, s);
+        
+        assert(lsv.N.size() == 4);
+        assert(abs(lsv.N[0] - 0.0) < 1e-6);
+        assert(abs(lsv.N[1] - 1.0) < 1e-6);
+        assert(abs(lsv.N[2] - 0.0) < 1e-6);
+        assert(abs(lsv.N[3] - 0.0) < 1e-6); // Normal must have w = 0
+        cout << "[PASS] CalculateNormalVector correctly sanitizes and calculates normal vector." << endl;
+    }
+
+    // 4. Test CalculateReflectionVector
+    {
+        LightShadeVector lsv;
+        // Inbound light vector pointing up and right
+        vector<double> L = {1.0, 1.0, 0.0, 0.0}; 
+        vector<double> N = {0.0, 1.0, 0.0, 0.0};  // Normal straight up
+        lsv.CalculateReflectionVector(L, N);
+        
+        // R = 2*(1)*{0,1,0,0} - {1,1,0,0} = {-1, 1, 0, 0}
+        assert(lsv.R.size() == 4);
+        assert(abs(lsv.R[0] - (-1.0)) < 1e-6);
+        assert(abs(lsv.R[1] - 1.0) < 1e-6);
+        assert(abs(lsv.R[2] - 0.0) < 1e-6);
+        assert(abs(lsv.R[3] - 0.0) < 1e-6); // Reflection must have w = 0
+        cout << "[PASS] CalculateReflectionVector correctly computes reflection trajectory." << endl;
+    }
+
+    cout << "\n--- All 4D Tuple Validation Tests Passed! ---" << endl;
+}
+
+
+*/
 
 
 

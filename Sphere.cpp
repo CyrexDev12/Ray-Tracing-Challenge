@@ -52,3 +52,6 @@ vector<double> Sphere::intersect(Ray ray) {
 }
 
 
+
+
+
